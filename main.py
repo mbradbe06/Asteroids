@@ -12,6 +12,9 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0.0
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while True:
@@ -19,9 +22,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        my_player.update(dt)
+        updatable.update(dt)
         screen.fill("black")
-        my_player.draw(screen)
+        for drawables in drawable:
+            drawables.draw(screen)
         pygame.display.flip()
         dt = clock.tick(60) / 1000  # Limit to 60 FPS and get delta time in seconds
         
